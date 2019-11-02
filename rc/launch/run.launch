@@ -1,0 +1,29 @@
+<?xml version="1.0"?>
+<launch>
+    <master auto="start"/>
+    <!--siglechip   publish encoder  close_muxmsg-->
+    <!-- IMU   publish imu_date-->
+    <!--lso1g   publish scan-->
+    <!--kinect  publich scan_kinect-->
+    <!--publich static tf-->
+    <!-- Open the model file -->
+    <!-- Add the transformations -->
+
+    <arg name="port_siglechip" default="/dev/car" />
+    <arg name="port_imu" default="/dev/imu" />
+    <arg name="port_ls01g" default="/dev/laser" />
+    
+    <include file="$(find rc)/launch/includes/siglechip.launch"><arg name="port_siglechip" value="$(arg port_siglechip)"/></include>
+
+    <include file="$(find rc)/launch/includes/imu.launch"><arg name="port_imu" value="$(arg port_imu)"/></include>
+
+    <include file="$(find rc)/launch/includes/ls01g_lidar.launch"><arg name="port_ls01g" value="$(arg port_ls01g)"/></include>
+<!--
+    <include file="$(find rc)/launch/includes/kinect_to_scan.launch" />
+-->
+    <include file="$(find rc)/launch/includes/rc_model.launch" />
+
+    <include file="$(find rc)/launch/includes/tf.launch"/>
+
+</launch>
+

@@ -1,0 +1,11 @@
+ <launch>
+    <arg name="port_siglechip" default="/dev/car" />
+
+    <node pkg="drive" type="driver.py" name="driver" output="screen" respawn="true">
+        <param name="port_siglechip" value="$(arg port_siglechip)"/> 
+    </node>
+
+</launch>
+
+
+

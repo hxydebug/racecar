@@ -1,0 +1,11 @@
+<?xml version="1.0"?>
+<launch>
+  <arg name="port_imu" default="/dev/imu" />
+
+  <node pkg="imu" name="imu" type="imu"  output="screen">
+    <param name="port_imu" value="$(arg port_imu)"/>
+    <param name="model" value="art_imu_02a"/>
+    <param name="baud" value="115200"/>
+  </node>
+  
+</launch>

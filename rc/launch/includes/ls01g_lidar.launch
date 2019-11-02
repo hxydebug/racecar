@@ -1,0 +1,25 @@
+<launch>
+
+    <arg name="port_ls01g" default="/dev/laser" />
+    <arg name="inverted" default="false" />
+
+    <node name="ls01g" pkg="ls01g" type="ls01g" output="screen">
+        <!--设置激光数据topic名称-->
+        <param name="scan_topic" value="scan"/>        
+        <!--激光坐标-->
+        <param name="laser_link" value="laser_link"/>    
+         <!--雷达连接的串口-->
+        <param name="port_ls01g" value="$(arg port_ls01g)"/> 
+        <!--设置为true探测不到区域会变成最大值-->
+        <param name="zero_as_max" value="false"/>        
+        <!--true：探测不到区域为0，false：探测不到区域为inf-->
+        <param name="min_as_zero" value="false"/>        
+        <!--角度制，从angle_disable_min到angle_disable_max之前的值为0-->
+        <param name="angle_disable_min" value="-1"/>    
+        <!--如果0度方向在串口线的方向上设置为true -->
+        <param name="angle_disable_max" value="-1"/>
+        <param name="inverted" value="$(arg inverted)"/>          
+    </node>
+
+</launch>
+

@@ -1,0 +1,46 @@
+<?xml version="1.0"?>
+<launch>
+    <param name="use_sim_time" value="false" />
+
+    <!-- Map server -->
+    <node name="map_server" pkg="map_server" type="map_server" args="/home/sz/rc/src/8.20.yaml"/>
+
+    <!--rf2o_Laser_Odometry   -->
+    <include file="$(find rc)/launch/includes/rf2o.launch" />
+
+    <!-- Robot_Localization -->
+    <node pkg="robot_localization" type="ekf_localization_node" name="ekf_se" clear_params="true">
+        <rosparam command="load" file="$(find rc)/param_ekf/rf2o_encoder_imu.yaml" />
+    </node>
+
+    <!-- AMCL -->
+    <include file="$(find rc)/launch/includes/amcl.launch">
+        <arg name="init_x" value="0.0"/>
+        <arg name="init_y" value="0.0"/>
+        <arg name="init_a" value="0.0"/>>
+    </include>
+
+    
+    <!-- move_base -->
+    <node pkg="move_base" type="move_base" respawn="false" name="move_base" output="screen">
+        <rosparam file="$(find rc)/param/move_base.yaml" command="load" />
+
+        <rosparam file="$(find rc)/param/global_costmap_params.yaml" command="load"/>
+        <rosparam file="$(find rc)/param/local_costmap_params.yaml" command="load" />
+
+        <param name="base_global_planner" value="navfn/NavfnROS"/>  
+        <rosparam file="$(find rc)/param/nav_planner.yaml" command="load" />
+
+        <param name="base_local_planner" value="teb_local_planner/TebLocalPlannerROS" />
+        <rosparam file="$(find rc)/param/teb_planner.yaml" command="load" />
+
+    </node>
+
+    <!--convert map into odom-->
+    <node pkg="rc" type="mapToOdom" name="mapToOdom" respawn="false" />
+
+    <!--pursure control-->
+    <!--<node pkg="drive" type="pursuit.py" name="pursuit"/>-->
+    
+
+</launch>

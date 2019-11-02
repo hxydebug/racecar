@@ -1,0 +1,14 @@
+<launch>
+<!--
+    静态tf树           base_footprint
+                      base_link
+           /camera_link    IMU_link    /laser
+-->
+    <!--static_transform_publisher x y z qx qy qz qw frame_id child_frame_id  period_in_ms-->
+    <node pkg="tf" type="static_transform_publisher" name="base_footprint2base_link" args=" 0.0 0.0 0.15 0.0 0.0 0.0 /base_footprint /base_link  10"/>
+
+    <node pkg="tf" type="static_transform_publisher" name="base_link2laser_link" args=" 0.07 0.0 0.11 0.0 0.0 0.0 /base_link /laser_link 10"/>
+    <node pkg="tf" type="static_transform_publisher" name="base_link2imu_link" args="0.1653 0.0 0.015 0.0 0.0 0.0 /base_link /IMU_link 10"/>
+    <node pkg="tf" type="static_transform_publisher" name="base_link2camera_link" args="-0.04 0.0 0.20 0.0 0.0 0.0 /base_link /camera_link 10"/>
+
+</launch>

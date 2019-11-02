@@ -1,0 +1,47 @@
+<launch>
+
+    <!-- Launch the freenect driver -->
+    <!-- use device registration -->
+    <include file="$(find freenect_launch)/launch/freenect.launch">
+        <arg name="depth_registration"              value="true" /> 
+        <arg name="rgb_processing"                  value="true" />
+        <arg name="ir_processing"                   value="false" />
+        <arg name="depth_processing"                value="false" />
+        <arg name="depth_registered_processing"     value="true" />
+        <arg name="disparity_processing"            value="false" />
+        <arg name="disparity_registered_processing" value="false" />
+        <arg name="sw_registered_processing"        value="false" />
+        <arg name="hw_registered_processing"        value="true" />
+
+        <arg name="rgb_camera_info_url" value="file://$(find rc)/include/rgb.yaml" />
+        <arg name="depth_camera_info_url"  value="file://$(find rc)/include/ir.yaml" />
+    </include>
+
+    <!--输入图像-->
+    <!--相关图像的相机信息。通常不需要重新变形，因为camera_info将从与图像相同的命名空间订阅。-->
+    <!--输出激光数据的话题--> 
+    <!--激光扫描的帧id。对于来自具有Z向前的“光学”帧的点云，该值应该被设置为具有X向前和Z向上的相应帧。-->
+    <!--用于生成激光扫描的像素行数。对于每一列，扫描将返回在图像中垂直居中的那些像素的最小值。-->
+    <!--返回的最小范围（以米为单位）。小于该范围的输出将作为-Inf输出。-->
+    <!--返回的最大范围（以米为单位）。大于此范围将输出为+ Inf。-->
+    
+  <node pkg="depthimage_to_laserscan" type="depthimage_to_laserscan" name="depthimage_to_laserscan" output="screen">
+      
+    <remap from="image" to="/camera/depth_registered/image_raw"/>
+    <remap from="camera_info" to="/camera/depth/camera_info" />    
+    <remap from="scan" to="/scan_kinect" /> 
+
+    <param name="output_frame_id" value="/camera_link"/>
+    <param name="scan_height" value="60"/>
+    <param name="range_min" value="0.45"/>
+    <param name="range_max" value="8.00"/>
+  </node>
+
+
+</launch>
+
+
+
+
+
+
